@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binapani Coaching Centre</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;
+ background:#f2f5fb;color:#172b4d
+}
+header{
+ background:#17457b;color:white;
+ padding:25px 16px;text-align:center
+}
+header h1{margin:0;font-size:25px}
+header p{margin:8px 0 0}
+main{padding:16px;max-width:650px;margin:auto}
+h2{font-size:19px}
+.grid{
+ display:grid;grid-template-columns:repeat(2,1fr);
+ gap:12px
+}
+.card{
+ background:white;padding:18px 10px;
+ border-radius:13px;text-align:center;
+ box-shadow:0 2px 8px #0000000c;
+ cursor:pointer;border:1px solid #e4eaf2
+}
+.card b{display:block;margin-bottom:7px}
+.card span{font-size:13px;color:#61718a}
+button{
+ background:#1677c8;color:white;border:0;
+ padding:12px 17px;border-radius:9px;
+ font-size:15px;cursor:pointer
+}
+#details{
+ background:white;padding:18px;
+ border-radius:13px;margin-top:18px
+}
+.item{
+ padding:13px 4px;border-bottom:1px solid #eee
+}
+.hidden{display:none}
+.ad{
+ background:#e7edf5;padding:18px;
+ text-align:center;border-radius:10px;
+ color:#61718a;margin-top:20px;font-size:13px
+}
+footer{text-align:center;padding:20px;color:#68778b}
+</style>
+</head>
+<body>
+
+<header>
+<h1>📚 BINAPANI</h1>
+<p>COACHING CENTRE</p>
+<p>Free Learning for Classes 1 to 10</p>
+</header>
+
+<main>
+<section id="home">
+<h2>Choose Your Class</h2>
+<div class="grid" id="classes"></div>
+
+<div class="ad">
+Advertisement space
+<br>Sponsored content may appear here.
+</div>
+</section>
+
+<section id="details" class="hidden">
+<button onclick="goHome()">← Back</button>
+<h2 id="classTitle"></h2>
+<div id="subjects"></div>
+</section>
+
+<section id="content" class="hidden">
+<button onclick="goClasses()">← Back</button>
+<h2 id="subjectTitle"></h2>
+<p>Study materials will be added soon.</p>
+<div id="lesson"></div>
+</section>
+</main>
+
+<footer>
+Binapani Coaching Centre © 2026
+<br>Learn • Practice • Succeed
+</footer>
+
+<script>
+const tg=window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const subjects=[
+"Mathematics","English","Odia",
+"Science","Social Science","General Knowledge"
+];
+
+const classes=document.getElementById("classes");
+
+for(let i=1;i<=10;i++){
+ const card=document.createElement("div");
+ card.className="card";
+ card.innerHTML=`<b>📖 Class ${i}</b><span>Open subjects</span>`;
+ card.onclick=()=>openClass(i);
+ classes.appendChild(card);
+}
+
+function openClass(n){
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("content").classList.add("hidden");
+ document.getElementById("details").classList.remove("hidden");
+ document.getElementById("classTitle").textContent="Class "+n+" Subjects";
+
+ const box=document.getElementById("subjects");
+ box.innerHTML="";
+
+ subjects.forEach(subject=>{
+  const item=document.createElement("div");
+  item.className="item";
+  const btn=document.createElement("button");
+  btn.textContent=subject;
+  btn.onclick=()=>openSubject(n,subject);
+  item.appendChild(btn);
+  box.appendChild(item);
+ });
+}
+
+function openSubject(n,subject){
+ document.getElementById("details").classList.add("hidden");
+ document.getElementById("content").classList.remove("hidden");
+ document.getElementById("subjectTitle").textContent=
+ "Class "+n+" - "+subject;
+ document.getElementById("lesson").textContent=
+ "Study notes and worksheets for this subject will be added here.";
+}
+
+function goHome(){
+ document.getElementById("details").classList.add("hidden");
+ document.getElementById("content").classList.add("hidden");
+ document.getElementById("home").classList.remove("hidden");
+}
+
+function goClasses(){
+ document.getElementById("content").classList.add("hidden");
+ document.getElementById("details").classList.remove("hidden");
+}
+</script>
+</body>
+</html>
